@@ -1,3 +1,5 @@
+import  ASLoader from "@assemblyscript/loader";
+
 
 class WasmLoader  {
 
@@ -18,10 +20,10 @@ class WasmLoader  {
 
 	async wasm(path, imports = this._imports) {
 		console.log(`fetching ${path}`);
-		if (!WebAssembly.instantiateStreaming) {
+		if (!ASLoader.instantiateStreaming) {
 			return this.wasmFallback(path, imports);
 		}
-		const  { instance } = await WebAssembly.instantiateStreaming(fetch(path), imports);
+		const  instance = await ASLoader.instantiateStreaming(fetch(path), imports);
 		return instance?.exports;
 	}
 
@@ -31,8 +33,7 @@ class WasmLoader  {
 		const response = await fetch(path);
 
 		const bytes = await response?.arrayBuffer();
-		const  { instance } = await WebAssembly.instantiate(bytes, imports);
-
+		const  instance = await ASLoader.instantiate(bytes, imports);
 
 		return instance?.exports;
 	}

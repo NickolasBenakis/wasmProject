@@ -16,8 +16,8 @@
     "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
-    "asbuild:untouched": "asc assembly/index.ts --target debug",
-    "asbuild:optimized": "asc assembly/index.ts --target release",
+    "asbuild:untouched": "asc assembly/index.ts --target debug --exportRuntime",
+    "asbuild:optimized": "asc assembly/index.ts --target release --exportRuntime",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
     "test": "node tests",
     "start": "yarn asbuild && webpack serve --config webpack.config.js"

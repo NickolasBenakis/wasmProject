@@ -7,9 +7,11 @@ window.addEventListener('load', () => {
 	const ML = new WasmLoader();
 	ML.wasm('/build/optimized.wasm')
 	.then(instance => {
-		const {minusOne} = instance;
-		console.log("got", minusOne)
-		document.write(minusOne(422));
+		const {minusOne, fizzBuzz, __getString} = instance;
+
+		// document.write(minusOne(422));
+		document.write(__getString(fizzBuzz(3)));
+
 	})
 
 });
