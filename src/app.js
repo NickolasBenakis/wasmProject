@@ -78,33 +78,33 @@ const App = () => {
   };
 
   return (
-    <label className="container">
-      <span className="title">Compress image</span>
-      <form aria-label="form">
+    <main>
+      <label className="container">
+        <span className="title">Compress image</span>
         <input
           name="upload"
           id="upload"
           type="file"
           accept=".jpeg, .jpg, .png"
-          onChange={handleSubmit}
+          onChange={handleUpload}
         />
-        <div className="compare">
-          {state.before ? (
-            <Image
-              size={state.beforeSize}
-              src={state.before}
-              ref={beforeRef}
-              type="before"
-            >
-              <CompressButton onClick={handleCompression} />
-            </Image>
-          ) : null}
-          {state.after ? (
-            <Image src={state.after} ref={afterRef} type="after" />
-          ) : null}
-        </div>
-      </form>
-    </label>
+      </label>
+      <section className="compare">
+        {state.before ? (
+          <Image
+            size={state.beforeSize}
+            src={state.before}
+            ref={beforeRef}
+            type="before"
+          >
+            <CompressButton onClick={handleCompression} />
+          </Image>
+        ) : null}
+        {state.after ? (
+          <Image src={state.after} ref={afterRef} type="after" />
+        ) : null}
+      </section>
+    </main>
   );
 };
 
