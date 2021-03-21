@@ -23,8 +23,9 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 // import Image from './image';
-import Canvas from './canvas';
-import Compress from './compress';
+import Canvas from './components/canvas';
+import Compress from './components/compress';
+import Slider from './components/slider';
 import WasmLoader from './loader.js';
 import './styles.css';
 
@@ -39,7 +40,15 @@ const App = () => {
     compressed: undefined,
     originalSize: 0,
     compressedSize: 0,
+    compressionLevel: 0.92,
   });
+
+  const handleCompressionLevel = (e) => {
+    setState((prevState) => ({
+      ...prevState,
+      compressionLevel: parseInt(e.target.value),
+    }));
+  };
 
   const handleUpload = (e) => {
     e.preventDefault();
@@ -73,7 +82,10 @@ const App = () => {
   const handleCompression = (changeEvent) => {
     const compressOption = changeEvent.target.value;
     const ctx = originalRef.current.getContext('2d');
-    const srcEncoded = ctx.canvas.toDataURL(`image/${compressOption}`, 0.1);
+    const srcEncoded = ctx.canvas.toDataURL(
+      `image/${compressOption}`,
+      state.compressionLevel / 100
+    );
 
     const image = new Image();
     image.src = srcEncoded;
@@ -110,10 +122,13 @@ const App = () => {
         <Canvas type="original" ref={originalRef} />
         <Canvas type="compressed" ref={compressedRef} />
       </section>
-      <section className="controls">
-        <Compress onChange={handleCompression} />
-        {/* <ScaleCanvas ref={originalRef} /> */}
-      </section>
+      {state.original ? (
+        <section className="controls">
+          <Compress onChange={handleCompression} />
+          {/* <ScaleCanvas ref={originalRef} /> */}
+          <Slider onChange={handleCompressionLevel} />
+        </section>
+      ) : null}
     </>
   );
 };

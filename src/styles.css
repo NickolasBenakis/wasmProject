@@ -26,6 +26,12 @@ form > * {
   width: 100px;
 }
 
+.slideContainer {
+  position: fixed;
+  top: 30%;
+  right: 9%;
+}
+
 .compress {
   position: fixed;
   top: 10%;
