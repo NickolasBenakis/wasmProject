@@ -22,7 +22,8 @@
 // });
 
 import React, { useState, useRef, useEffect } from 'react';
-import Image from './image';
+// import Image from './image';
+import Canvas from './canvas';
 import CompressButton from './compress';
 import WasmLoader from './loader.js';
 import './styles.css';
@@ -31,16 +32,13 @@ import './styles.css';
 // console.log(WASM);
 
 const App = () => {
-  const beforeRef = useRef(null);
-  const afterRef = useRef(null);
-
+  const originalRef = useRef(null);
+  const compressedRef = useRef(null);
   const [state, setState] = useState({
-    before: undefined,
-    beforeSize: undefined,
-    beforeResolution: undefined,
-    after: undefined,
-    afterSize: undefined,
-    afterResolution: undefined,
+    original: undefined,
+    compressed: undefined,
+    originalSize: 0,
+    compressedSize: 0,
   });
 
   const handleUpload = (e) => {
@@ -52,33 +50,51 @@ const App = () => {
     reader.readAsDataURL(file);
 
     reader.onload = (event) => {
-      setState((prevState) => ({
-        ...prevState,
-        before: event.target.result,
-        beforeSize: event.loaded,
-      }));
+      const image = new Image();
+      image.src = event.target.result;
+      image.onload = () => {
+        const ctx = originalRef.current.getContext('2d');
+        ctx.drawImage(
+          image,
+          0,
+          0,
+          originalRef.current.width,
+          originalRef.current.height
+        );
+        setState((prevState) => ({
+          ...prevState,
+          original: event.target.result,
+          originalSize: event.total,
+        }));
+      };
     };
   };
 
   const handleCompression = () => {
-    const canvas = document.createElement('canvas');
-    const MAX_WIDTH = window.innerWidth;
-    const scaleSize = MAX_WIDTH / beforeRef.current.width;
+    const ctx = originalRef.current.getContext('2d');
+    const srcEncoded = ctx.canvas.toDataURL('image/png', 0.5);
 
-    canvas.width = MAX_WIDTH;
-    canvas.height = beforeRef.current.height * scaleSize;
+    const image = new Image();
+    image.src = srcEncoded;
+    image.onload = (e) => {
+      const ctx = compressedRef.current.getContext('2d');
+      ctx.drawImage(image, 0, 0);
 
-    const ctx = canvas.getContext('2d');
+      const base64str = srcEncoded.substr(22);
+      const decoded = window.atob(base64str);
 
-    ctx.drawImage(beforeRef.current, 0, 0, canvas.width, canvas.height);
-
-    const srcEncoded = ctx.canvas.toDataURL(beforeRef.current, 'image/png');
-    console.log(ctx.canvas);
-    setState((prevState) => ({ ...prevState, after: srcEncoded }));
+      setState((prevState) => ({
+        ...prevState,
+        compressed: srcEncoded,
+        compressedSize: decoded.length,
+      }));
+    };
   };
 
+  console.log(state);
+
   return (
-    <main>
+    <>
       <label className="container">
         <span className="title">Compress image</span>
         <input
@@ -90,21 +106,14 @@ const App = () => {
         />
       </label>
       <section className="compare">
-        {state.before ? (
-          <Image
-            size={state.beforeSize}
-            src={state.before}
-            ref={beforeRef}
-            type="before"
-          >
-            <CompressButton onClick={handleCompression} />
-          </Image>
-        ) : null}
-        {state.after ? (
-          <Image src={state.after} ref={afterRef} type="after" />
-        ) : null}
+        <Canvas type="original" ref={originalRef} />
+        <Canvas type="compressed" ref={compressedRef} />
       </section>
-    </main>
+      <section className="controls">
+        <CompressButton onClick={handleCompression} />
+        {/* <ScaleCanvas ref={originalRef} /> */}
+      </section>
+    </>
   );
 };
 

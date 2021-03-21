@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Compress = React.forwardRef(({ onClick }, ref) => {
-  return <button onClick={onClick}>Compress</button>;
-});
+const Compress = ({ onClick }) => {
+  return (
+    <button className="compress" onClick={onClick}>
+      Compress
+    </button>
+  );
+};
 
 export default Compress;
