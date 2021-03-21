@@ -24,7 +24,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 // import Image from './image';
 import Canvas from './canvas';
-import CompressButton from './compress';
+import Compress from './compress';
 import WasmLoader from './loader.js';
 import './styles.css';
 
@@ -70,9 +70,10 @@ const App = () => {
     };
   };
 
-  const handleCompression = () => {
+  const handleCompression = (changeEvent) => {
+    const compressOption = changeEvent.target.value;
     const ctx = originalRef.current.getContext('2d');
-    const srcEncoded = ctx.canvas.toDataURL('image/png', 0.5);
+    const srcEncoded = ctx.canvas.toDataURL(`image/${compressOption}`, 0.1);
 
     const image = new Image();
     image.src = srcEncoded;
@@ -80,8 +81,8 @@ const App = () => {
       const ctx = compressedRef.current.getContext('2d');
       ctx.drawImage(image, 0, 0);
 
-      const base64str = srcEncoded.substr(22);
-      const decoded = window.atob(base64str);
+      const base64str = btoa(srcEncoded);
+      const decoded = atob(base64str);
 
       setState((prevState) => ({
         ...prevState,
@@ -110,7 +111,7 @@ const App = () => {
         <Canvas type="compressed" ref={compressedRef} />
       </section>
       <section className="controls">
-        <CompressButton onClick={handleCompression} />
+        <Compress onChange={handleCompression} />
         {/* <ScaleCanvas ref={originalRef} /> */}
       </section>
     </>

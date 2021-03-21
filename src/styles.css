@@ -22,6 +22,10 @@ form > * {
   height: 100%;
 }
 
+.compression-list {
+  width: 100px;
+}
+
 .compress {
   position: fixed;
   top: 10%;

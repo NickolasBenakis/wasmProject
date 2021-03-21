@@ -1,10 +1,20 @@
 import React from 'react';
 
-const Compress = ({ onClick }) => {
+const Compress = ({ onChange }) => {
   return (
-    <button className="compress" onClick={onClick}>
-      Compress
-    </button>
+    <div className="compress">
+      <label htmlFor="compression">Choose compression:</label>
+      <select
+        name="compression"
+        className="compression-list"
+        id="compression"
+        onChange={onChange}
+      >
+        <option value="png">png</option>
+        <option value="jpeg">jpeg</option>
+        <option value="webp">webp</option>
+      </select>
+    </div>
   );
 };
 
