@@ -1,0 +1,20 @@
+.container {
+  display: block;
+  max-width: 1080px;
+  margin: 24px auto;
+  padding: 24px;
+}
+
+.title {
+  margin: 16px 8px;
+}
+
+form > * {
+  margin: 8px;
+}
+
+.compare {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

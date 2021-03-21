@@ -1,6 +1,5 @@
 import  ASLoader from "@assemblyscript/loader";
 
-
 class WasmLoader  {
 
 	constructor() {
