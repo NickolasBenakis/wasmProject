@@ -27,7 +27,9 @@ import Canvas from './components/canvas';
 import Compress from './components/compress';
 import Slider from './components/slider';
 import WasmLoader from './loader.js';
+import { dataURLtoBlob } from './util';
 import './styles.css';
+import Ratio from './components/ratio';
 
 // const WASM = new WasmLoader();
 // console.log(WASM);
@@ -40,7 +42,8 @@ const App = () => {
     compressed: undefined,
     originalSize: 0,
     compressedSize: 0,
-    compressionLevel: 0.92,
+    compressionLevel: 92,
+    ratio: 0,
   });
 
   const handleCompressionLevel = (e) => {
@@ -70,6 +73,7 @@ const App = () => {
           originalRef.current.width,
           originalRef.current.height
         );
+
         setState((prevState) => ({
           ...prevState,
           original: event.target.result,
@@ -81,30 +85,30 @@ const App = () => {
 
   const handleCompression = (changeEvent) => {
     const compressOption = changeEvent.target.value;
-    const ctx = originalRef.current.getContext('2d');
-    const srcEncoded = ctx.canvas.toDataURL(
+    originalRef.current.toBlob(
+      (blob) => {
+        const image = new Image();
+        const url = URL.createObjectURL(blob);
+        image.src = url;
+        image.onload = (e) => {
+          const ctx = compressedRef.current.getContext('2d');
+          ctx.drawImage(image, 0, 0);
+
+          const size = blob.size;
+          const ratio = 100 - (size / state.originalSize) * 100;
+
+          setState((prevState) => ({
+            ...prevState,
+            compressed: url,
+            compressedSize: size,
+            ratio,
+          }));
+        };
+      },
       `image/${compressOption}`,
       state.compressionLevel / 100
     );
-
-    const image = new Image();
-    image.src = srcEncoded;
-    image.onload = (e) => {
-      const ctx = compressedRef.current.getContext('2d');
-      ctx.drawImage(image, 0, 0);
-
-      const base64str = btoa(srcEncoded);
-      const decoded = atob(base64str);
-
-      setState((prevState) => ({
-        ...prevState,
-        compressed: srcEncoded,
-        compressedSize: decoded.length,
-      }));
-    };
   };
-
-  console.log(state);
 
   return (
     <>
@@ -127,6 +131,7 @@ const App = () => {
           <Compress onChange={handleCompression} />
           {/* <ScaleCanvas ref={originalRef} /> */}
           <Slider onChange={handleCompressionLevel} />
+          <Ratio percentage={state.ratio} />
         </section>
       ) : null}
     </>

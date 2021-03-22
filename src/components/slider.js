@@ -7,7 +7,7 @@ const Slider = ({ onChange }) => {
         type="range"
         min="1"
         max="100"
-        defaultValue="10"
+        defaultValue="92"
         className="slider"
         onChange={onChange}
       />
