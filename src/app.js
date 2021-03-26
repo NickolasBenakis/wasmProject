@@ -27,29 +27,17 @@ import Compress from './components/compress';
 import Slider from './components/slider';
 import WasmLoader from './loader.js';
 import { dataURLtoBlob } from './util';
+import useImageStore from './state/image';
 import './styles.css';
 import Ratio from './components/ratio';
-
-// const WASM = new WasmLoader();
-// console.log(WASM);
 
 const App = () => {
   const originalRef = useRef(null);
   const compressedRef = useRef(null);
-  const [state, setState] = useState({
-    original: undefined,
-    compressed: undefined,
-    originalSize: 0,
-    compressedSize: 0,
-    compressionLevel: 92,
-    ratio: 0,
-  });
+  const { setField, setFields, ...state } = useImageStore();
 
   const handleCompressionLevel = (e) => {
-    setState((prevState) => ({
-      ...prevState,
-      compressionLevel: parseInt(e.target.value),
-    }));
+    setField('compressionLevel', parseInt(e.target.value));
   };
 
   const handleUpload = (e) => {
@@ -73,11 +61,10 @@ const App = () => {
           originalRef.current.height
         );
 
-        setState((prevState) => ({
-          ...prevState,
+        setFields({
           original: event.target.result,
           originalSize: event.total,
-        }));
+        });
       };
     };
   };
@@ -96,12 +83,11 @@ const App = () => {
           const size = blob.size;
           const ratio = 100 - (size / state.originalSize) * 100;
 
-          setState((prevState) => ({
-            ...prevState,
+          setFields({
             compressed: url,
             compressedSize: size,
             ratio,
-          }));
+          });
         };
       },
       `image/${compressOption}`,
