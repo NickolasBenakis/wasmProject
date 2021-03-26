@@ -21,8 +21,7 @@
 //   button.addEventListener('click', submitHandler);
 // });
 
-import React, { useState, useRef, useEffect } from 'react';
-// import Image from './image';
+import React, { useState, useRef } from 'react';
 import Canvas from './components/canvas';
 import Compress from './components/compress';
 import Slider from './components/slider';

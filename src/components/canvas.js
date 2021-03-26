@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
-const Canvas = React.forwardRef(
-  ({ src = '', size, type, children }, canvasRef) => {
-    return <canvas id={type} ref={canvasRef} width="600" height="600" />;
-  }
-);
+const Canvas = React.forwardRef(({ type, ...props }, canvasRef) => {
+  return (
+    <canvas id={type} ref={canvasRef} width="600" height="600" {...props} />
+  );
+});
 
 export default Canvas;

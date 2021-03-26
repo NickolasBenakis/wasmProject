@@ -18,6 +18,9 @@ module.exports = {
     app: './src/index.js',
     wasmLoader: './src/loader.js',
   },
+  devServer: {
+    port: '3000',
+  },
   mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
