@@ -14,12 +14,12 @@ form > * {
 }
 
 .compare {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-
   width: 100%;
   height: 100%;
+}
+
+canvas {
+  margin: 4px;
 }
 
 .compression-list {
@@ -41,7 +41,7 @@ form > * {
 .compress {
   position: fixed;
   top: 10%;
-  right: 10%;
+  right: 33.3%;
   width: 100px;
   height: 40px;
   cursor: pointer;

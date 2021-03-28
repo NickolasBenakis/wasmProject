@@ -21,78 +21,49 @@
 //   button.addEventListener('click', submitHandler);
 // });
 
-import React, { useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Canvas from './components/canvas';
-import Compress from './components/compress';
+import EncoderList from './components/encoderList';
 import Slider from './components/slider';
 import WasmLoader from './loader.js';
-import { dataURLtoBlob } from './util';
+import {
+  getDataUrlFromFile,
+  loadImage,
+  drawImageInCanvas,
+  handleScale,
+} from './util';
 import useImageStore from './state/image';
 import './styles.css';
 import Ratio from './components/ratio';
+import shallow from 'zustand/shallow';
+
+const selectState = (state) => ({
+  ...state,
+});
 
 const App = () => {
-  const originalRef = useRef(null);
-  const compressedRef = useRef(null);
-  const { setField, setFields, ...state } = useImageStore();
+  const { setField, setFields, compressImage, ...state } = useImageStore(
+    selectState,
+    shallow
+  );
 
-  const handleCompressionLevel = (e) => {
-    setField('compressionLevel', parseInt(e.target.value));
-  };
+  useEffect(() => {
+    compressImage();
+  }, [state.type, state.compressionLevel]);
 
-  const handleUpload = (e) => {
+  const handleUpload = async (e) => {
     e.preventDefault();
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+    const fileUrl = await getDataUrlFromFile(file);
+    const image = await loadImage(fileUrl);
 
-    reader.onload = (event) => {
-      const image = new Image();
-      image.src = event.target.result;
-      image.onload = () => {
-        const ctx = originalRef.current.getContext('2d');
-        ctx.drawImage(
-          image,
-          0,
-          0,
-          originalRef.current.width,
-          originalRef.current.height
-        );
-
-        setFields({
-          original: event.target.result,
-          originalSize: event.total,
-        });
-      };
-    };
-  };
-
-  const handleCompression = (changeEvent) => {
-    const compressOption = changeEvent.target.value;
-    originalRef.current.toBlob(
-      (blob) => {
-        const image = new Image();
-        const url = URL.createObjectURL(blob);
-        image.src = url;
-        image.onload = (e) => {
-          const ctx = compressedRef.current.getContext('2d');
-          ctx.drawImage(image, 0, 0);
-
-          const size = blob.size;
-          const ratio = 100 - (size / state.originalSize) * 100;
-
-          setFields({
-            compressed: url,
-            compressedSize: size,
-            ratio,
-          });
-        };
-      },
-      `image/${compressOption}`,
-      state.compressionLevel / 100
-    );
+    drawImageInCanvas(image, 'original');
+    setFields({
+      originalURL: fileUrl,
+      originalSize: file.size,
+    });
   };
 
   return (
@@ -108,15 +79,14 @@ const App = () => {
         />
       </label>
       <section className="compare">
-        <Canvas type="original" ref={originalRef} />
-        <Canvas type="compressed" ref={compressedRef} />
+        <Canvas type="original" />
+        <Canvas type="compressed" />
       </section>
-      {state.original ? (
+      {state.originalURL ? (
         <section className="controls">
-          <Compress onChange={handleCompression} />
-          {/* <ScaleCanvas ref={originalRef} /> */}
-          <Slider onChange={handleCompressionLevel} />
-          <Ratio percentage={state.ratio} />
+          <EncoderList />
+          <Slider />
+          <Ratio />
         </section>
       ) : null}
     </>

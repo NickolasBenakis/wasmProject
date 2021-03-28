@@ -1,6 +1,21 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import useImageStore from '../state/image';
+import shallow from 'zustand/shallow';
 
-const Slider = ({ onChange }) => {
+const selectState = (state) => ({
+  setField: state.setField,
+});
+
+const Slider = () => {
+  const { setField } = useImageStore(selectState, shallow);
+
+  const updateCompressionLevel = useCallback(
+    (e) => {
+      setField('compressionLevel', parseInt(e.target.value));
+    },
+    [setField]
+  );
+
   return (
     <div className="slideContainer">
       <input
@@ -9,7 +24,7 @@ const Slider = ({ onChange }) => {
         max="100"
         defaultValue="92"
         className="slider"
-        onChange={onChange}
+        onChange={updateCompressionLevel}
       />
     </div>
   );

@@ -1,10 +1,17 @@
 import React from 'react';
+import useImageStore from '../state/image';
 
-const Ratio = ({ percentage = 0 }) => {
+const selectState = (state) => state.ratio;
+
+const Ratio = () => {
+  const ratio = useImageStore(selectState);
+
+  if (!ratio) return null;
+
   return (
     <div className="ratio">
-      {!!percentage && percentage}
-      {!!percentage && <span>{percentage < 100 ? ' smaller' : ' bigger'}</span>}
+      <span>{ratio}</span>
+      <span>{ratio < 100 ? ' smaller' : ' bigger'}</span>
     </div>
   );
 };
