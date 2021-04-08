@@ -14,8 +14,9 @@ form > * {
 }
 
 .compare {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 canvas {
@@ -27,9 +28,7 @@ canvas {
 }
 
 .slideContainer {
-  position: fixed;
-  top: 30%;
-  right: 9%;
+  padding: 16px 0;
 }
 
 .ratio {
@@ -38,13 +37,26 @@ canvas {
   right: 10%;
 }
 
-.compress {
+.controls {
   position: fixed;
-  top: 10%;
-  right: 33.3%;
-  width: 100px;
-  height: 40px;
+  top: 0px;
+  right: 0px;
+  width: 250px;
+  height: 100%;
   cursor: pointer;
+  background: antiquewhite;
+  padding: 16px;
+  z-index: 99;
+}
+.compress {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.compress > label,
+a,
+select {
+  margin: 2px 0;
 }
 
 .scale {
@@ -62,4 +74,19 @@ canvas {
 .plus {
   top: 30%;
   right: 20%;
+}
+
+.preview {
+  max-width: 80%;
+}
+
+table td {
+  border-collapse: collapse;
+  vertical-align: top;
+  width: 20%;
+}
+
+.compressed {
+  vertical-align: top;
+  width: 50%;
 }

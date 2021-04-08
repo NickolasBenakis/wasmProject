@@ -18,6 +18,7 @@ const Slider = () => {
 
   return (
     <div className="slideContainer">
+      <div>Slide compression</div>
       <input
         type="range"
         min="1"

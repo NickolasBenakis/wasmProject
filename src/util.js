@@ -53,6 +53,21 @@ export function loadImage(src) {
 }
 
 /**
+ * createImage
+ *
+ * @param {string} src
+ * @returns {Promise<HTMLImageElement>}
+ */
+export function createImage(src, id) {
+  return new Promise((resolve, reject) => {
+    const img = document.getElementById(id);
+    img.onload = () => resolve(img);
+    img.onerror = (e) => reject(e);
+    img.src = src;
+  });
+}
+
+/**
  * drawImageInCanvas
  *
  * @param {HTMLImageElement} img

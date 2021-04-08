@@ -22,7 +22,8 @@
 // });
 
 import React, { useEffect } from 'react';
-import Canvas from './components/canvas';
+// import Canvas from './components/canvas';
+import Image from './components/image';
 import EncoderList from './components/encoderList';
 import Slider from './components/slider';
 import WasmLoader from './loader.js';
@@ -31,6 +32,7 @@ import {
   loadImage,
   drawImageInCanvas,
   handleScale,
+  createImage,
 } from './util';
 import useImageStore from './state/image';
 import './styles.css';
@@ -55,14 +57,12 @@ const App = () => {
     e.preventDefault();
     const file = e.target.files?.[0];
     if (!file) return;
+    const url = URL.createObjectURL(file);
 
-    const fileUrl = await getDataUrlFromFile(file);
-    const image = await loadImage(fileUrl);
-
-    drawImageInCanvas(image, 'original');
+    await createImage(url, 'original');
     setFields({
-      originalURL: fileUrl,
-      originalSize: file.size,
+      originalURL: url,
+      originalSize: (file.size / 1024 / 1024).toFixed(2),
     });
   };
 
@@ -78,10 +78,22 @@ const App = () => {
           onChange={handleUpload}
         />
       </label>
-      <section className="compare">
-        <Canvas type="original" />
-        <Canvas type="compressed" />
-      </section>
+      <table className="compare">
+        <tbody>
+          <tr>
+            <td>original</td>
+            <td>compressed</td>
+          </tr>
+          <tr>
+            <td>
+              <Image type="original" />
+            </td>
+            <td>
+              <Image type="compressed" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
       {state.originalURL ? (
         <section className="controls">
           <EncoderList />
