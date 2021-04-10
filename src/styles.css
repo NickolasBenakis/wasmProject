@@ -3,6 +3,7 @@
   max-width: 1080px;
   margin: 24px auto;
   padding: 24px;
+  text-align: center;
 }
 
 .title {
@@ -43,7 +44,7 @@ canvas {
   justify-content: flex-start;
   align-items: flex-start;
 
-  position: fixed;
+  position: absolute;
   top: 0px;
   right: 0px;
   width: 250px;
@@ -52,7 +53,7 @@ canvas {
   background: antiquewhite;
   padding: 16px;
   z-index: 99;
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
 }
 
 .minimize {
@@ -88,13 +89,16 @@ select {
 }
 
 .preview {
-  max-width: 80%;
+  max-width: 100%;
 }
 
 table td {
   border-collapse: collapse;
   vertical-align: top;
   width: 20%;
+
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 
 .compressed {
@@ -103,4 +107,52 @@ table td {
 
 .minimize-container {
   padding: 8px;
+}
+
+#mydivheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.show {
+  opacity: 1;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+  margin-right: 4px;
+}
+
+.custom-file-input::before {
+  content: 'Select Image';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+.download {
+  text-align: center;
+  margin: 16px;
 }

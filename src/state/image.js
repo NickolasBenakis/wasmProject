@@ -12,6 +12,7 @@ const store = (set, get) => ({
   compressedSize: 0,
   compressionLevel: 92,
   ratio: 0,
+  useWebWorker: false,
   type: 'jpeg',
   setField: (key, value) => {
     if (!key in get()) {
@@ -29,6 +30,7 @@ const store = (set, get) => ({
       onProgress: () => {},
       initialQuality: get().compressionLevel / 100,
       fileType: `image/${get().type}`,
+      useWebWorker: get().useWebWorker,
     };
     const output = await imageCompression(get().originalFile, options);
     console.log('output', output);

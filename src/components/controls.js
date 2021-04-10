@@ -7,7 +7,10 @@ const Controls = () => {
   const [minimized, setMinimized] = React.useState(false);
 
   return (
-    <section className={`controls ${minimized ? 'minimize' : ''}`}>
+    <section
+      id="controls"
+      className={`controls ${minimized ? 'minimize' : ''}`}
+    >
       <div className="minimize-container">
         <button
           className="minimize-btn"

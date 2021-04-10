@@ -59,16 +59,28 @@ const App = () => {
   return (
     <>
       <label className="container">
-        <span className="title">Compress image</span>
+        <span className="title">Upload an image to compress it</span>
         <input
           name="upload"
+          className="custom-file-input"
           id="upload"
           type="file"
           accept=".jpeg, .jpg, .png"
           onChange={handleUpload}
         />
       </label>
-      <table className="compare">
+      {state.compressedURL ? (
+        <div className="download">
+          <a
+            target="_blank"
+            href={state.compressedURL}
+            download={state.compressedFile.name}
+          >
+            Download compressed file
+          </a>
+        </div>
+      ) : null}
+      <table className={state.originalURL ? 'compress show' : 'compress hide'}>
         <tbody>
           <tr>
             <td>original</td>
