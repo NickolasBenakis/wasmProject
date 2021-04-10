@@ -240,7 +240,7 @@ UPNG.decode = function (buff) {
     bin = UPNG._bin,
     rUs = bin.readUshort,
     rUi = bin.readUint;
-  var out = { tabs: {}, frames: [] };
+  var out = {tabs: {}, frames: []};
   var dd = new Uint8Array(data.length),
     doff = 0; // put all IDAT data into it
   var fd,
@@ -1199,7 +1199,7 @@ UPNG.encodeLL = function (bufs, w, h, cc, ac, depth, dels, tabs) {
     bipl = bipp * w;
   for (var i = 0; i < bufs.length; i++)
     nimg.frames.push({
-      rect: { x: 0, y: 0, width: w, height: h },
+      rect: {x: 0, y: 0, width: w, height: h},
       img: new Uint8Array(bufs[i]),
       blend: 0,
       dispose: 1,
@@ -1561,7 +1561,7 @@ UPNG.encode.compress = function (
   }
   //console.log("colors => palette indices", Date.now()-time);  time = Date.now();
 
-  return { ctype: ctype, depth: depth, plte: plte, frames: frms };
+  return {ctype: ctype, depth: depth, plte: plte, frames: frms};
 };
 UPNG.encode.framize = function (bufs, w, h, alwaysBlend, evenCrd, forbidPrev) {
   /*  DISPOSE
@@ -1643,7 +1643,7 @@ UPNG.encode.framize = function (bufs, w, h, alwaysBlend, evenCrd, forbidPrev) {
     } else nimg = cimg.slice(0); // img may be rewritten further ... don't rewrite input
 
     frms.push({
-      rect: { x: nx, y: ny, width: nw, height: nh },
+      rect: {x: nx, y: ny, width: nw, height: nh},
       img: nimg,
       blend: blend,
       dispose: 0,
@@ -1660,7 +1660,7 @@ UPNG.encode.framize = function (bufs, w, h, alwaysBlend, evenCrd, forbidPrev) {
         miY = Math.min(r0.y, r1.y);
       var maX = Math.max(r0.x + r0.width, r1.x + r1.width),
         maY = Math.max(r0.y + r0.height, r1.y + r1.height);
-      var r = { x: miX, y: miY, width: maX - miX, height: maY - miY };
+      var r = {x: miX, y: miY, width: maX - miX, height: maY - miY};
 
       frms[j - 1].dispose = 1;
       if (j - 1 != 0)
@@ -1717,7 +1717,7 @@ UPNG.encode._updateFrame = function (bufs, w, h, frms, i, r, evenCrd) {
     if ((mix & 1) == 1) mix--;
     if ((miy & 1) == 1) miy--;
   }
-  r = { x: mix, y: miy, width: max - mix + 1, height: may - miy + 1 };
+  r = {x: mix, y: miy, width: max - mix + 1, height: may - miy + 1};
 
   var fr = frms[i];
   fr.rect = r;
@@ -1757,7 +1757,7 @@ UPNG.encode._filterZero = function (img, h, bpp, bpl, data, filter, levelZero) {
   if (filter != -1) ftry = [filter];
   else if (h * bpl > 500000 || bpp == 1) ftry = [0];
   var opts;
-  if (levelZero) opts = { level: 0 };
+  if (levelZero) opts = {level: 0};
 
   // var CMPR = (data.length>10e6 && typeof UZIP !== 'undefined') ? UZIP : pako;
   var CMPR = UZIP;
@@ -1897,7 +1897,7 @@ UPNG.quantize = function (abuf, ps) {
       inds[i >> 2] = nd.ind;
       tb[i >> 2] = nd.est.rgba;
     }
-  return { abuf: nimg.buffer, inds: inds, plte: leafs };
+  return {abuf: nimg.buffer, inds: inds, plte: leafs};
 };
 
 UPNG.quantize.getKDtree = function (nimg, ps, err) {
@@ -1963,7 +1963,7 @@ UPNG.quantize.getKDtree = function (nimg, ps, err) {
       left: null,
       right: null,
     };
-    rn.bst = { R: [], m: [], N: node.bst.N - ln.bst.N };
+    rn.bst = {R: [], m: [], N: node.bst.N - ln.bst.N};
     for (var i = 0; i < 16; i++) rn.bst.R[i] = node.bst.R[i] - ln.bst.R[i];
     for (var i = 0; i < 4; i++) rn.bst.m[i] = node.bst.m[i] - ln.bst.m[i];
     rn.est = UPNG.quantize.estats(rn.bst);
@@ -2071,7 +2071,7 @@ UPNG.quantize.stats = function (nimg, i0, i1) {
   R[13] = R[7];
   R[14] = R[11];
 
-  return { R: R, m: m, N: N };
+  return {R: R, m: m, N: N};
 };
 UPNG.quantize.estats = function (stats) {
   var R = stats.R,

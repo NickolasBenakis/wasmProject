@@ -89,7 +89,7 @@ export function getFilefromDataUrl(
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
-    const file = new Blob([u8arr], { type: mime });
+    const file = new Blob([u8arr], {type: mime});
     file.name = filename;
     file.lastModified = lastModified;
     resolve(file);
@@ -177,7 +177,7 @@ export async function canvasToFile(
     const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     console.log(UPNG);
     const png = UPNG.encode([data], canvas.width, canvas.height, 256 * quality);
-    file = new Blob([png], { type: fileType });
+    file = new Blob([png], {type: fileType});
     file.name = fileName;
     file.lastModified = fileLastModified;
   } else if (
@@ -185,7 +185,7 @@ export async function canvasToFile(
     canvas instanceof OffscreenCanvas
   ) {
     // checked on Win Chrome 83, MacOS Chrome 83
-    file = await canvas.convertToBlob({ type: fileType, quality });
+    file = await canvas.convertToBlob({type: fileType, quality});
     file.name = fileName;
     file.lastModified = fileLastModified;
     // some browser do not support quality parameter, see: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob

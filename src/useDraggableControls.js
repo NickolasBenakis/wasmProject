@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 
 export default () => {
   useEffect(() => {
     console.log(document.getElementById('controls'));
-		
+
     dragElement(document.getElementById('controls'));
 
     function dragElement(elmnt) {

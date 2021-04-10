@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Canvas = ({ type, ...props }) => {
+const Canvas = ({type, ...props}) => {
   return <canvas id={type} className="preview" {...props} />;
 };
 

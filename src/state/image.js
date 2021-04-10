@@ -1,7 +1,7 @@
 import create from 'zustand';
-import { devtools } from 'zustand/middleware';
+import {devtools} from 'zustand/middleware';
 import imageCompression from '../compression/compress';
-import { createImage } from '../util';
+import {createImage} from '../util';
 
 const store = (set, get) => ({
   originalURL: undefined,
@@ -14,14 +14,28 @@ const store = (set, get) => ({
   ratio: 0,
   useWebWorker: false,
   type: 'jpeg',
+  webWorker: {
+    progress: null,
+    inputSize: null,
+    outputSize: null,
+    inputUrl: null,
+    outputUrl: null,
+  },
+  mainThread: {
+    progress: null,
+    inputSize: null,
+    outputSize: null,
+    inputUrl: null,
+    outputUrl: null,
+  },
   setField: (key, value) => {
     if (!key in get()) {
       throw new Error('undefined key in store');
     }
-    set((prevState) => ({ ...prevState, [key]: value }));
+    set((prevState) => ({...prevState, [key]: value}));
   },
   setFields: (newState) => {
-    set((prevState) => ({ ...prevState, ...newState }));
+    set((prevState) => ({...prevState, ...newState}));
   },
   compressImage: async () => {
     const options = {

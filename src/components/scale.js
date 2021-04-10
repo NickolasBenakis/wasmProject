@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Scale = React.forwardRef(({ src }, canvasRef) => {
+const Scale = React.forwardRef(({src}, canvasRef) => {
   const onMinus = () => {
     const image = new Image();
     image.src = src;

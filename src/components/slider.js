@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import useImageStore from '../state/image';
 import shallow from 'zustand/shallow';
 
@@ -7,7 +7,7 @@ const selectState = (state) => ({
 });
 
 const Slider = () => {
-  const { setField } = useImageStore(selectState, shallow);
+  const {setField} = useImageStore(selectState, shallow);
 
   const updateCompressionLevel = useCallback(
     (e) => {

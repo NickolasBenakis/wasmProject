@@ -35,6 +35,7 @@
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
     "test": "node tests",
     "start": "yarn asbuild && webpack serve --config webpack.config.js",
-    "build": "rm -rf dist && webpack build --config webpack.config.js"
+    "build": "rm -rf dist && webpack build --config webpack.config.js",
+		"prettier:write": "./node_modules/.bin/prettier --write './src/**/*{.js,.jsx,.scss}'"
   }
 }

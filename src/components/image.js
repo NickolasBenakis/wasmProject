@@ -2,7 +2,7 @@ import React from 'react';
 
 const isCompressed = (type) => type === 'compressed';
 
-const Image = ({ type, src, ...props }) => {
+const Image = ({type, src, ...props}) => {
   return (
     <img
       id={type}

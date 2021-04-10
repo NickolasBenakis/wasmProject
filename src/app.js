@@ -21,7 +21,7 @@
 //   button.addEventListener('click', submitHandler);
 // });
 
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Image from './components/image';
 import Controls from './components/controls';
 import WasmLoader from './loader.js';
