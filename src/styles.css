@@ -177,3 +177,7 @@ body {
 input[type='file'] {
   /* opacity: 0; */
 }
+
+.clear {
+  margin-left: 4px;
+}

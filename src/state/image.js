@@ -3,7 +3,7 @@ import {devtools} from 'zustand/middleware';
 import imageCompression from '../compression/compress';
 import {createImage} from '../util';
 
-const imageState = {
+const imageInitialState = {
   progress: 0,
   inputSize: null,
   outputSize: null,
@@ -20,10 +20,10 @@ const initialState = {
   useWebWorker: false,
   type: 'jpeg',
   webWorker: {
-    ...imageState,
+    ...imageInitialState,
   },
   mainThread: {
-    ...imageState,
+    ...imageInitialState,
   },
 };
 
@@ -36,10 +36,18 @@ const store = (set, get) => ({
   ...initialState,
   clearState: () => {
     const uploadInput = document.getElementById('upload');
+    const originalImage = document.getElementById('original');
+    const compressedImage = document.getElementById('compressed');
+    originalImage.src = '';
+    compressedImage.src = '';
+
     if (uploadInput) {
       uploadInput.value = '';
     }
-    set((prevState) => ({...prevState, ...initialState}));
+    set((prevState) => ({
+      ...prevState,
+      ...initialState,
+    }));
   },
   getTarget: () => {
     const target = get().useWebWorker ? 'webWorker' : 'mainThread';

@@ -2,7 +2,8 @@ import React from 'react';
 import Ratio from './ratio';
 import EncoderList from './encoderList';
 import Slider from './slider';
-import WebworkerCheckbox from '../components/checkbox';
+import WebworkerCheckbox from './checkbox';
+import ClearState from './clearState';
 
 const Controls = () => {
   const [minimized, setMinimized] = React.useState(false);
@@ -19,6 +20,7 @@ const Controls = () => {
         >
           Minimize
         </button>
+        <ClearState />
       </div>
       <WebworkerCheckbox />
       <EncoderList />

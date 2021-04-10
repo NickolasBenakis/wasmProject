@@ -75,7 +75,6 @@ const App = () => {
           accept=".jpeg, .jpg, .png"
           onChange={handleUpload}
         />
-        <button onClick={() => clearState()}>clear</button>
       </label>
       {state.mainThread.outputUrl || state.webWorker.outputUrl ? (
         <table className="info">
@@ -127,7 +126,7 @@ const App = () => {
           </tr>
         </tbody>
       </table>
-      {state[getTarget()].inputUrl ? <Controls /> : null}
+      <Controls />
     </>
   );
 };
