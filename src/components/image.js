@@ -7,7 +7,7 @@ const Image = ({ type, src, ...props }) => {
     <img
       id={type}
       src={src}
-      className={`preview ${isCompressed(type) ? 'compressed' : null}`}
+      className={`preview ${isCompressed(type) ? 'compressed' : undefined}`}
       {...props}
     />
   );

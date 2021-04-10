@@ -38,6 +38,11 @@ canvas {
 }
 
 .controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
   position: fixed;
   top: 0px;
   right: 0px;
@@ -47,7 +52,13 @@ canvas {
   background: antiquewhite;
   padding: 16px;
   z-index: 99;
+  transition: all 0.3s ease-in-out;
 }
+
+.minimize {
+  transform: translateY(70vh);
+}
+
 .compress {
   display: flex;
   flex-direction: column;
@@ -88,5 +99,8 @@ table td {
 
 .compressed {
   vertical-align: top;
-  width: 50%;
+}
+
+.minimize-container {
+  padding: 8px;
 }

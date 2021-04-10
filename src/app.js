@@ -22,48 +22,38 @@
 // });
 
 import React, { useEffect } from 'react';
-// import Canvas from './components/canvas';
 import Image from './components/image';
-import EncoderList from './components/encoderList';
-import Slider from './components/slider';
+import Controls from './components/controls';
 import WasmLoader from './loader.js';
-import {
-  getDataUrlFromFile,
-  loadImage,
-  drawImageInCanvas,
-  handleScale,
-  createImage,
-} from './util';
 import useImageStore from './state/image';
-import './styles.css';
-import Ratio from './components/ratio';
 import shallow from 'zustand/shallow';
+
+import './styles.css';
 
 const selectState = (state) => ({
   ...state,
 });
 
 const App = () => {
-  const { setField, setFields, compressImage, ...state } = useImageStore(
-    selectState,
-    shallow
-  );
+  const {
+    setField,
+    setFields,
+    compressImage,
+    uploadImage,
+    ...state
+  } = useImageStore(selectState, shallow);
 
   useEffect(() => {
-    compressImage();
+    if (state.originalFile) {
+      compressImage();
+    }
   }, [state.type, state.compressionLevel]);
 
   const handleUpload = async (e) => {
     e.preventDefault();
     const file = e.target.files?.[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-
-    await createImage(url, 'original');
-    setFields({
-      originalURL: url,
-      originalSize: (file.size / 1024 / 1024).toFixed(2),
-    });
+    await uploadImage(file);
   };
 
   return (
@@ -94,13 +84,7 @@ const App = () => {
           </tr>
         </tbody>
       </table>
-      {state.originalURL ? (
-        <section className="controls">
-          <EncoderList />
-          <Slider />
-          <Ratio />
-        </section>
-      ) : null}
+      {state.originalURL ? <Controls /> : null}
     </>
   );
 };

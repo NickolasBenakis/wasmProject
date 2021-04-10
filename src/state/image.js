@@ -1,10 +1,13 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { dataURItoBlob } from '../util';
+import imageCompression from '../compression/compress';
+import { createImage } from '../util';
 
 const store = (set, get) => ({
   originalURL: undefined,
   compressedURL: undefined,
+  originalFile: undefined,
+  compressedFile: undefined,
   originalSize: 0,
   compressedSize: 0,
   compressionLevel: 92,
@@ -19,45 +22,39 @@ const store = (set, get) => ({
   setFields: (newState) => {
     set((prevState) => ({ ...prevState, ...newState }));
   },
-  compressImage: () => {
-    const temporaryImage = new Image();
-    temporaryImage.src = get().originalURL;
-    temporaryImage.onload = function drawAnImageToCanvas() {
-      const temporaryCanvas = document.createElement('canvas');
-      const temporaryCTX = temporaryCanvas.getContext('2d');
-      temporaryCTX.drawImage(
-        temporaryImage,
-        0,
-        0,
-        temporaryImage.width,
-        temporaryImage.height
-      );
-
-      const compressionLevel = get().compressionLevel / 100;
-      const compressedURL = temporaryCanvas.toDataURL(
-        `image/${get().type}`,
-        compressionLevel
-      );
-
-      const compressedBlob = dataURItoBlob(compressedURL);
-      const ratio = 100 - (compressedBlob.size / get().originalSize) * 100;
-      set((prevState) => ({
-        ...prevState,
-        compressedURL,
-        compressedSize: compressedBlob.size,
-        ratio,
-      }));
-
-      const compressedCanvas = document.getElementById('compressed');
-      const compressedContext = compressedCanvas.getContext('2d');
-      compressedContext.drawImage(
-        temporaryImage,
-        0,
-        0,
-        compressedCanvas.width,
-        compressedCanvas.height
-      );
+  compressImage: async () => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1024,
+      onProgress: () => {},
+      initialQuality: get().compressionLevel / 100,
+      fileType: `image/${get().type}`,
     };
+    const output = await imageCompression(get().originalFile, options);
+    console.log('output', output);
+    const url = URL.createObjectURL(output);
+
+    await createImage(url, 'compressed');
+    set((prev) => ({
+      ...prev,
+      compressedURL: url,
+      compressedSize: (output.size / 1024 / 1024).toFixed(2),
+      compressedFile: output,
+    }));
+  },
+  uploadImage: async (file) => {
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+
+    await createImage(url, 'original');
+    console.log(file);
+    set((prev) => ({
+      ...prev,
+      originalURL: url,
+      //  size in MBs
+      originalSize: (file.size / 1024 / 1024).toFixed(2),
+      originalFile: file,
+    }));
   },
 });
 
