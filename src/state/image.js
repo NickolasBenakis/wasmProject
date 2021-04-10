@@ -13,6 +13,11 @@ const imageState = {
   outputFile: null,
 };
 
+const calculateRatio = (output, input) => {
+  const diff = output / input;
+  return (1 - diff) * 100;
+};
+
 const store = (set, get) => ({
   quality: 92,
   ratio: 0,
@@ -54,8 +59,13 @@ const store = (set, get) => ({
     const url = URL.createObjectURL(output);
 
     await createImage(url, 'compressed');
+
     set((prev) => ({
       ...prev,
+      ratio: calculateRatio(
+        (output.size / 1024 / 1024).toFixed(2),
+        get()[target]?.inputSize
+      ),
       [target]: {
         ...prev[target],
         outputUrl: url,

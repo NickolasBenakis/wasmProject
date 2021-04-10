@@ -18,7 +18,7 @@ const Checkbox = () => {
         onChange={() => setField(!useWebWorker)}
         name="webworker"
       />
-      <label for="webworker">use webworker</label>
+      <label htmlFor="webworker">use webworker</label>
     </div>
   );
 };

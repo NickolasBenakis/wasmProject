@@ -42,6 +42,7 @@ const App = () => {
     uploadImage,
     useWebWorker,
     quality,
+    ratio,
     type,
     getTarget,
     ...state
@@ -74,16 +75,44 @@ const App = () => {
         />
       </label>
       {state.mainThread.outputUrl || state.webWorker.outputUrl ? (
-        <div className="download">
-          <a
-            target="_blank"
-            href={state[getTarget()].outputUrl}
-            download={state[getTarget()].outputFile.name}
-          >
-            Download compressed file
-          </a>
-        </div>
+        <table className="info">
+          <tbody>
+            <tr>
+              <td>compressed info : </td>
+              <td>
+                {`Image size ${
+                  state[getTarget()].outputSize
+                } Mb, quality ${quality}/100, ${
+                  ratio === 100 ? `~100` : ratio
+                } ${ratio > 100 ? 'larger' : 'smaller'} %`}
+              </td>
+            </tr>
+            <tr>
+              <td>download : </td>
+              <td>
+                {' '}
+                <a
+                  target="_blank"
+                  href={state[getTarget()].outputUrl}
+                  download={state[getTarget()].outputFile.name}
+                >
+                  Download compressed file
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       ) : null}
+      {/* //   <div className="download">
+      //     <a
+      //       target="_blank"
+      //       href={state[getTarget()].outputUrl}
+      //       download={state[getTarget()].outputFile.name}
+      //     >
+      //       Download compressed file
+      //     </a>
+      //   </div>
+      // ) : null} */}
       <table
         className={
           state[getTarget()].inputUrl ? 'compress show' : 'compress hide'

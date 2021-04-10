@@ -23,7 +23,7 @@ const Controls = () => {
       <WebworkerCheckbox />
       <EncoderList />
       <Slider />
-      <Ratio />
+      {/* <Ratio /> */}
     </section>
   );
 };

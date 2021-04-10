@@ -97,7 +97,7 @@ table td {
   border-collapse: collapse;
   vertical-align: top;
   width: 20%;
-
+  padding: 4px;
   border: 1px solid black;
   border-collapse: collapse;
 }
@@ -160,4 +160,8 @@ table td {
 
 body {
   overflow-y: hidden;
+}
+
+.info {
+  margin: 16px auto;
 }
