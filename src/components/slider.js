@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import useImageStore from '../state/image';
+import debounce from 'lodash/debounce';
 import shallow from 'zustand/shallow';
 
 const selectState = (state) => ({
@@ -11,7 +12,7 @@ const Slider = () => {
 
   const updateCompressionLevel = useCallback(
     (e) => {
-      setField('compressionLevel', parseInt(e.target.value));
+      setField('quality', parseInt(e.target.value));
     },
     [setField]
   );
@@ -25,7 +26,7 @@ const Slider = () => {
         max="100"
         defaultValue="92"
         className="slider"
-        onChange={updateCompressionLevel}
+        onChange={debounce(updateCompressionLevel, 300)}
       />
     </div>
   );

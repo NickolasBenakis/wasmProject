@@ -43,6 +43,7 @@ canvas {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  gap: 8px;
 
   position: absolute;
   top: 0px;
@@ -155,4 +156,8 @@ table td {
 .download {
   text-align: center;
   margin: 16px;
+}
+
+body {
+  overflow-y: hidden;
 }

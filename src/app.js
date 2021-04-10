@@ -40,14 +40,18 @@ const App = () => {
     setFields,
     compressImage,
     uploadImage,
+    useWebWorker,
+    quality,
+    type,
+    getTarget,
     ...state
   } = useImageStore(selectState, shallow);
 
   useEffect(() => {
-    if (state.originalFile) {
+    if (state[getTarget()].inputUrl) {
       compressImage();
     }
-  }, [state.type, state.compressionLevel]);
+  }, [type, quality, useWebWorker]);
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -69,18 +73,22 @@ const App = () => {
           onChange={handleUpload}
         />
       </label>
-      {state.compressedURL ? (
+      {state.mainThread.outputUrl || state.webWorker.outputUrl ? (
         <div className="download">
           <a
             target="_blank"
-            href={state.compressedURL}
-            download={state.compressedFile.name}
+            href={state[getTarget()].outputUrl}
+            download={state[getTarget()].outputFile.name}
           >
             Download compressed file
           </a>
         </div>
       ) : null}
-      <table className={state.originalURL ? 'compress show' : 'compress hide'}>
+      <table
+        className={
+          state[getTarget()].inputUrl ? 'compress show' : 'compress hide'
+        }
+      >
         <tbody>
           <tr>
             <td>original</td>
@@ -96,7 +104,7 @@ const App = () => {
           </tr>
         </tbody>
       </table>
-      {state.originalURL ? <Controls /> : null}
+      {state[getTarget()].inputUrl ? <Controls /> : null}
     </>
   );
 };

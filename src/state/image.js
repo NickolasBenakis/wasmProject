@@ -3,30 +3,30 @@ import {devtools} from 'zustand/middleware';
 import imageCompression from '../compression/compress';
 import {createImage} from '../util';
 
+const imageState = {
+  progress: null,
+  inputSize: null,
+  outputSize: null,
+  inputUrl: null,
+  outputUrl: null,
+  inputFile: null,
+  outputFile: null,
+};
+
 const store = (set, get) => ({
-  originalURL: undefined,
-  compressedURL: undefined,
-  originalFile: undefined,
-  compressedFile: undefined,
-  originalSize: 0,
-  compressedSize: 0,
-  compressionLevel: 92,
+  quality: 92,
   ratio: 0,
   useWebWorker: false,
   type: 'jpeg',
   webWorker: {
-    progress: null,
-    inputSize: null,
-    outputSize: null,
-    inputUrl: null,
-    outputUrl: null,
+    ...imageState,
   },
   mainThread: {
-    progress: null,
-    inputSize: null,
-    outputSize: null,
-    inputUrl: null,
-    outputUrl: null,
+    ...imageState,
+  },
+  getTarget: () => {
+    const target = get().useWebWorker ? 'webWorker' : 'mainThread';
+    return target;
   },
   setField: (key, value) => {
     if (!key in get()) {
@@ -38,38 +38,49 @@ const store = (set, get) => ({
     set((prevState) => ({...prevState, ...newState}));
   },
   compressImage: async () => {
+    const target = get().useWebWorker ? 'webWorker' : 'mainThread';
+
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1024,
       onProgress: () => {},
-      initialQuality: get().compressionLevel / 100,
+      initialQuality: get().quality / 100,
       fileType: `image/${get().type}`,
       useWebWorker: get().useWebWorker,
     };
-    const output = await imageCompression(get().originalFile, options);
+    const output = await imageCompression(get()[target]?.inputFile, options);
     console.log('output', output);
+
     const url = URL.createObjectURL(output);
 
     await createImage(url, 'compressed');
     set((prev) => ({
       ...prev,
-      compressedURL: url,
-      compressedSize: (output.size / 1024 / 1024).toFixed(2),
-      compressedFile: output,
+      [target]: {
+        ...prev[target],
+        outputUrl: url,
+        outputFile: output,
+        outputSize: (output.size / 1024 / 1024).toFixed(2),
+      },
     }));
   },
   uploadImage: async (file) => {
     if (!file) return;
+    console.log(file);
+
     const url = URL.createObjectURL(file);
 
     await createImage(url, 'original');
-    console.log(file);
+
+    const target = get().useWebWorker ? 'webWorker' : 'mainThread';
     set((prev) => ({
       ...prev,
-      originalURL: url,
-      //  size in MBs
-      originalSize: (file.size / 1024 / 1024).toFixed(2),
-      originalFile: file,
+      [target]: {
+        ...prev[target],
+        inputUrl: url,
+        inputSize: (file.size / 1024 / 1024).toFixed(2),
+        inputFile: file,
+      },
     }));
   },
 });
