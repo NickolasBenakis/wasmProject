@@ -4,13 +4,14 @@ import imageCompression from '../compression/compress';
 import {createImage} from '../util';
 
 const imageState = {
-  progress: null,
+  progress: 0,
   inputSize: null,
   outputSize: null,
   inputUrl: null,
   outputUrl: null,
   inputFile: null,
   outputFile: null,
+  time: 0,
 };
 
 const calculateRatio = (output, input) => {
@@ -42,6 +43,16 @@ const store = (set, get) => ({
   setFields: (newState) => {
     set((prevState) => ({...prevState, ...newState}));
   },
+  onProgress: (p) => {
+    const target = get().useWebWorker ? 'webWorker' : 'mainThread';
+    set((prevState) => ({
+      ...prevState,
+      [target]: {
+        ...prevState[target],
+        progress: p,
+      },
+    }));
+  },
   compressImage: async () => {
     const target = get().useWebWorker ? 'webWorker' : 'mainThread';
 
@@ -53,7 +64,10 @@ const store = (set, get) => ({
       fileType: `image/${get().type}`,
       useWebWorker: get().useWebWorker,
     };
+    var t0 = performance.now();
     const output = await imageCompression(get()[target]?.inputFile, options);
+    var t1 = performance.now();
+
     console.log('output', output);
 
     const url = URL.createObjectURL(output);
@@ -68,6 +82,7 @@ const store = (set, get) => ({
       ),
       [target]: {
         ...prev[target],
+        time: t1 - t0,
         outputUrl: url,
         outputFile: output,
         outputSize: (output.size / 1024 / 1024).toFixed(2),

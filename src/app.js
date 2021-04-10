@@ -88,9 +88,12 @@ const App = () => {
               </td>
             </tr>
             <tr>
+              <td>Time took</td>
+              <td>{`${state[getTarget()].time / 1000} s`}</td>
+            </tr>
+            <tr>
               <td>download : </td>
               <td>
-                {' '}
                 <a
                   target="_blank"
                   href={state[getTarget()].outputUrl}
@@ -103,16 +106,6 @@ const App = () => {
           </tbody>
         </table>
       ) : null}
-      {/* //   <div className="download">
-      //     <a
-      //       target="_blank"
-      //       href={state[getTarget()].outputUrl}
-      //       download={state[getTarget()].outputFile.name}
-      //     >
-      //       Download compressed file
-      //     </a>
-      //   </div>
-      // ) : null} */}
       <table
         className={
           state[getTarget()].inputUrl ? 'compress show' : 'compress hide'

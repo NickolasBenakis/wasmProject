@@ -1,8 +1,7 @@
 .container {
   display: block;
   max-width: 1080px;
-  margin: 24px auto;
-  padding: 24px;
+  margin: 16px auto;
   text-align: center;
 }
 
@@ -54,6 +53,7 @@ canvas {
   background: antiquewhite;
   padding: 16px;
   z-index: 99;
+  transform: translateY(70vh);
   /* transition: all 0.3s ease-in-out; */
 }
 
@@ -164,4 +164,12 @@ body {
 
 .info {
   margin: 16px auto;
+}
+
+.progressbar {
+  height: 40px;
+  z-index: 9999;
+  position: absolute;
+  top: 50%;
+  right: 50%;
 }
