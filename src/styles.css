@@ -173,3 +173,7 @@ body {
   top: 50%;
   right: 50%;
 }
+
+input[type='file'] {
+  /* opacity: 0; */
+}

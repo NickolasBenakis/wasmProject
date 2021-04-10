@@ -45,6 +45,7 @@ const App = () => {
     ratio,
     type,
     getTarget,
+    clearState,
     ...state
   } = useImageStore(selectState, shallow);
 
@@ -66,6 +67,7 @@ const App = () => {
       <label className="container">
         <span className="title">Upload an image to compress it</span>
         <input
+          title=""
           name="upload"
           className="custom-file-input"
           id="upload"
@@ -73,6 +75,7 @@ const App = () => {
           accept=".jpeg, .jpg, .png"
           onChange={handleUpload}
         />
+        <button onClick={() => clearState()}>clear</button>
       </label>
       {state.mainThread.outputUrl || state.webWorker.outputUrl ? (
         <table className="info">
@@ -80,16 +83,14 @@ const App = () => {
             <tr>
               <td>compressed info : </td>
               <td>
-                {`Image size ${
-                  state[getTarget()].outputSize
-                } Mb, quality ${quality}/100, ${
+                {`Image size ${state[getTarget()].outputSize} Mb, ${
                   ratio === 100 ? `~100` : ratio
                 } ${ratio > 100 ? 'larger' : 'smaller'} %`}
               </td>
             </tr>
             <tr>
               <td>Time took</td>
-              <td>{`${state[getTarget()].time / 1000} s`}</td>
+              <td>{`${(state[getTarget()].time / 1000).toFixed(2)} s`}</td>
             </tr>
             <tr>
               <td>download : </td>

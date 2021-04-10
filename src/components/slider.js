@@ -5,10 +5,11 @@ import shallow from 'zustand/shallow';
 
 const selectState = (state) => ({
   setField: state.setField,
+  quality: state.quality,
 });
 
 const Slider = () => {
-  const {setField} = useImageStore(selectState, shallow);
+  const {setField, quality} = useImageStore(selectState, shallow);
 
   const updateCompressionLevel = useCallback(
     (e) => {
@@ -19,7 +20,7 @@ const Slider = () => {
 
   return (
     <div className="slideContainer">
-      <div>Slide compression</div>
+      <div>Slide compression {` ${quality}/100`}</div>
       <input
         type="range"
         min="1"

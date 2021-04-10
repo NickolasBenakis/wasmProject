@@ -14,12 +14,7 @@ const imageState = {
   time: 0,
 };
 
-const calculateRatio = (output, input) => {
-  const diff = output / input;
-  return (1 - diff) * 100;
-};
-
-const store = (set, get) => ({
+const initialState = {
   quality: 92,
   ratio: 0,
   useWebWorker: false,
@@ -29,6 +24,22 @@ const store = (set, get) => ({
   },
   mainThread: {
     ...imageState,
+  },
+};
+
+const calculateRatio = (output, input) => {
+  const diff = output / input;
+  return (1 - diff) * 100;
+};
+
+const store = (set, get) => ({
+  ...initialState,
+  clearState: () => {
+    const uploadInput = document.getElementById('upload');
+    if (uploadInput) {
+      uploadInput.value = '';
+    }
+    set((prevState) => ({...prevState, ...initialState}));
   },
   getTarget: () => {
     const target = get().useWebWorker ? 'webWorker' : 'mainThread';
