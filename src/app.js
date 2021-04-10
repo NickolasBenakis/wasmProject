@@ -88,7 +88,7 @@ const App = () => {
               </td>
             </tr>
             <tr>
-              <td>Time took</td>
+              <td>Compressed Time : </td>
               <td>{`${(state[getTarget()].time / 1000).toFixed(2)} s`}</td>
             </tr>
             <tr>
