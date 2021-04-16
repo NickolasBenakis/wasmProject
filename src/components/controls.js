@@ -1,5 +1,4 @@
 import React from 'react';
-import Ratio from './ratio';
 import EncoderList from './encoderList';
 import Slider from './slider';
 import WebworkerCheckbox from './checkbox';
@@ -18,14 +17,13 @@ const Controls = () => {
           className="minimize-btn"
           onClick={() => setMinimized(!minimized)}
         >
-          Minimize
+          {minimized ? 'Maximize' : 'Minimize'}
         </button>
         <ClearState />
       </div>
       <WebworkerCheckbox />
       <EncoderList />
       <Slider />
-      {/* <Ratio /> */}
     </section>
   );
 };

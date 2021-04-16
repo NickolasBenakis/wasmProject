@@ -83,30 +83,34 @@ const store = (set, get) => ({
       fileType: `image/${get().type}`,
       useWebWorker: get().useWebWorker,
     };
-    var t0 = performance.now();
-    const output = await imageCompression(get()[target]?.inputFile, options);
-    var t1 = performance.now();
 
-    console.log('output', output);
+    try {
+      const t0 = performance.now();
+      const output = await imageCompression(get()[target]?.inputFile, options);
+      const t1 = performance.now();
+      console.log('output', output);
 
-    const url = URL.createObjectURL(output);
+      const url = URL.createObjectURL(output);
 
-    await createImage(url, 'compressed');
+      await createImage(url, 'compressed');
 
-    set((prev) => ({
-      ...prev,
-      ratio: calculateRatio(
-        (output.size / 1024 / 1024).toFixed(2),
-        get()[target]?.inputSize
-      ),
-      [target]: {
-        ...prev[target],
-        time: t1 - t0,
-        outputUrl: url,
-        outputFile: output,
-        outputSize: (output.size / 1024 / 1024).toFixed(2),
-      },
-    }));
+      set((prev) => ({
+        ...prev,
+        ratio: calculateRatio(
+          (output.size / 1024 / 1024).toFixed(2),
+          get()[target]?.inputSize
+        ),
+        [target]: {
+          ...prev[target],
+          time: t1 - t0,
+          outputUrl: url,
+          outputFile: output,
+          outputSize: (output.size / 1024 / 1024).toFixed(2),
+        },
+      }));
+    } catch (error) {
+      console.warn(error);
+    }
   },
   uploadImage: async (file) => {
     if (!file) return;

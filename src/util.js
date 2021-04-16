@@ -95,3 +95,7 @@ export function handleScale(canvas) {
     ctx.scale(0.2, 0.2);
   }
 }
+
+export function calculateCompressedTime(time) {
+  return (time / 1000).toFixed(2);
+}

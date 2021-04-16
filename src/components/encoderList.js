@@ -17,7 +17,7 @@ const EncodersList = () => {
         target="_blank"
         href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types"
       >
-        Check available formats for browser
+        Check available formats
       </a>
       <select
         name="compression"

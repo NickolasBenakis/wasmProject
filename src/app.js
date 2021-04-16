@@ -27,7 +27,7 @@ import Controls from './components/controls';
 import WasmLoader from './loader.js';
 import useImageStore from './state/image';
 import shallow from 'zustand/shallow';
-
+import {calculateCompressedTime} from './util';
 import './styles.css';
 
 const selectState = (state) => ({
@@ -89,7 +89,7 @@ const App = () => {
             </tr>
             <tr>
               <td>Compressed Time : </td>
-              <td>{`${(state[getTarget()].time / 1000).toFixed(2)} s`}</td>
+              <td>{`${calculateCompressedTime(state[getTarget()].time)} s`}</td>
             </tr>
             <tr>
               <td>download : </td>
