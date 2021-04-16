@@ -84,7 +84,7 @@ const App = () => {
               <td>
                 {`Image size ${state[getTarget()].outputSize} Mb, ${
                   ratio === 100 ? `~100` : ratio
-                } ${ratio > 100 ? 'larger' : 'smaller'} %`}
+                } % ${ratio > 100 ? 'larger' : 'smaller'}`}
               </td>
             </tr>
             <tr>
