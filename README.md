@@ -3,7 +3,7 @@
 wasmProject
 
 <p style="text-align:center; margin: 0 auto;">
-<img src="./projectIcon.svg">
+<img height="64" width="64" src="./projectIcon.svg">
 </p>
 
 This project is an image compression tool.
