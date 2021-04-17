@@ -53,8 +53,8 @@ const CompressionPage = () => {
       >
         <tbody>
           <tr>
-            <td>original</td>
-            <td>compressed</td>
+            <td>{`Original ${state[getTarget()].inputSize} Mb`}</td>
+            <td>{`Compressed ${state[getTarget()].outputSize} Mb`}</td>
           </tr>
           <tr>
             <td>
