@@ -24,6 +24,7 @@
     "lodash": "^4.17.21",
     "prettier": "2.2.1",
     "style-loader": "2.0.0",
+    "surge": "^0.23.0",
     "webpack": "5.26.0",
     "webpack-cli": "4.5.0",
     "webpack-dev-server": "3.11.2",
@@ -36,6 +37,7 @@
     "test": "node tests",
     "start": "yarn asbuild && webpack serve --config webpack.config.js",
     "build": "rm -rf dist && webpack build --config webpack.config.js",
-		"prettier:write": "./node_modules/.bin/prettier --write './src/**/*{.js,.jsx,.scss}'"
+    "prettier:write": "./node_modules/.bin/prettier --write './src/**/*{.js,.jsx,.scss}'",
+    "deploy": "yarn run build && ./node_modules/.bin/surge --domain https://imgCompress.surge.sh"
   }
 }
