@@ -37,15 +37,14 @@ const CompressionPage = () => {
 
   return (
     <>
-      {state.mainThread.outputUrl || state.webWorker.outputUrl ? (
-        <CompressionDetails
-          outputFileName={state[getTarget()].outputFile.name}
-          outputSize={state[getTarget()].outputSize}
-          ratio={ratio}
-          outputUrl={state[getTarget()].outputUrl}
-          time={state[getTarget()].time}
-        />
-      ) : null}
+      <CompressionDetails
+        display={state.mainThread.outputUrl || state.webWorker.outputUrl}
+        outputFileName={state[getTarget()].outputFile?.name || ''}
+        outputSize={state[getTarget()].outputSize}
+        ratio={ratio}
+        outputUrl={state[getTarget()].outputUrl}
+        time={state[getTarget()].time}
+      />
       <table
         className={
           state[getTarget()].inputUrl ? 'compress show' : 'compress hide'

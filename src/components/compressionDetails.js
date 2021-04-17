@@ -2,14 +2,15 @@ import React from 'react';
 import {calculateCompressedTime} from '../util';
 
 const CompressionDetails = ({
-  outputSize,
-  ratio,
-  outputUrl,
-  outputFileName,
-  time,
+  outputSize = 0,
+  ratio = 0,
+  outputUrl = '',
+  outputFileName = '',
+  time = 0,
+  display = false,
 }) => {
   return (
-    <table className="info">
+    <table className={`info ${display ? 'display' : 'hidden'}`}>
       <tbody>
         <tr>
           <td>compressed info : </td>
