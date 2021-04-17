@@ -15,7 +15,7 @@ const CompressionDetails = ({
           <td>compressed info : </td>
           <td>
             {`Image size ${outputSize} Mb, ${
-              ratio === 100 ? `~100` : ratio
+              ratio === 100 ? `~100` : ratio.toFixed(2)
             } % ${ratio > 100 ? 'larger' : 'smaller'}`}
           </td>
         </tr>
