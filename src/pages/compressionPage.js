@@ -14,8 +14,6 @@ const textSizeHeadline = (size) => (size == null ? '' : size + ' Mb');
 
 const CompressionPage = () => {
   const {
-    setField,
-    setFields,
     compressImage,
     uploadImage,
     useWebWorker,

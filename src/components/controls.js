@@ -21,7 +21,7 @@ const Controls = () => {
         </button>
         <ClearState />
       </div>
-      <WebworkerCheckbox />
+      {/* <WebworkerCheckbox /> */}
       <EncoderList />
       <Slider />
     </section>

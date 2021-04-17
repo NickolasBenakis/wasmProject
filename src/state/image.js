@@ -1,7 +1,13 @@
 import create from 'zustand';
 import {devtools} from 'zustand/middleware';
-import imageCompression from '../compression/compress';
+import imageCompression from '../compression/index.js';
 import {createImage} from '../util';
+
+const executionTarget = Object.freeze({
+  mainThread: 'mainThread',
+  webWorker: 'webWorker',
+  wasm: 'wasm',
+});
 
 const imageInitialState = {
   progress: 0,
@@ -51,7 +57,9 @@ const store = (set, get) => ({
     }));
   },
   getTarget: () => {
-    const target = get().useWebWorker ? 'webWorker' : 'mainThread';
+    const target = get().useWebWorker
+      ? executionTarget.webWorker
+      : executionTarget.mainThread;
     return target;
   },
   setField: (key, value) => {
@@ -64,7 +72,9 @@ const store = (set, get) => ({
     set((prevState) => ({...prevState, ...newState}));
   },
   onProgress: (p) => {
-    const target = get().useWebWorker ? 'webWorker' : 'mainThread';
+    const target = get().useWebWorker
+      ? executionTarget.webWorker
+      : executionTarget.mainThread;
     set((prevState) => ({
       ...prevState,
       [target]: {
@@ -74,7 +84,9 @@ const store = (set, get) => ({
     }));
   },
   compressImage: async () => {
-    const target = get().useWebWorker ? 'webWorker' : 'mainThread';
+    const target = get().useWebWorker
+      ? executionTarget.webWorker
+      : executionTarget.mainThread;
 
     const options = {
       maxSizeMB: 1,
@@ -119,7 +131,10 @@ const store = (set, get) => ({
 
     const url = URL.createObjectURL(file);
 
-    const target = get().useWebWorker ? 'webWorker' : 'mainThread';
+    const target = get().useWebWorker
+      ? executionTarget.webWorker
+      : executionTarget.mainThread;
+    debugger;
     set((prev) => ({
       ...prev,
       uploaded: true,

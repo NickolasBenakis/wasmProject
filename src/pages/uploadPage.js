@@ -1,14 +1,20 @@
 import React from 'react';
 import Uploader from '../components/upload';
 import useImageStore from '../state/image';
+import TargetOptions from '../components/targetOptions';
+import shallow from 'zustand/shallow';
 
-const selectState = (state) => state.uploadImage;
+const selectState = (state) => ({
+  uploadImage: state.uploadImage,
+  setField: state.setField,
+});
 
 const UploadPage = () => {
-  const uploadImage = useImageStore(selectState);
+  const {uploadImage, setField} = useImageStore(selectState, shallow);
 
   const handleUpload = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -25,6 +31,7 @@ const UploadPage = () => {
         <span className="title">Upload an image to compress it</span>
         <Uploader onChange={handleUpload} />
       </label>
+      <TargetOptions setField={setField} />
     </div>
   );
 };
