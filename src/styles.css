@@ -57,7 +57,13 @@ canvas {
   background: antiquewhite;
   padding: 16px;
   z-index: 99;
-  transition: height 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-box-shadow: -5px 3px 8px 2px rgb(0 0 0 / 63%);
+  box-shadow: -5px 3px 8px 2px rgb(0 0 0 / 63%);
+}
+.controls:hover {
+  -webkit-box-shadow: -5px 3px 8px 2px rgb(0 0 0 / 43%);
+  box-shadow: -5px 3px 8px 2px rgb(0 0 0 / 43%);
 }
 
 .minimize {
@@ -272,4 +278,16 @@ input {
   margin: 0 auto;
   background-color: whitesmoke;
   height: 100vh;
+}
+
+/* turn it off completely */
+input[type='radio']:checked,
+input[type='radio']:hover {
+  outline: none;
+}
+
+/* make it red instead (with with same width and style) */
+input[type='radio']:checked,
+input[type='radio']:hover {
+  color: red;
 }
