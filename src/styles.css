@@ -32,7 +32,7 @@ canvas {
 }
 
 .slideContainer {
-  padding: 16px 0;
+  margin: 8px 0;
 }
 
 .ratio {
@@ -107,10 +107,6 @@ table td {
 
 .compressed {
   vertical-align: top;
-}
-
-.minimize-container {
-  padding: 8px;
 }
 
 #mydivheader {
@@ -200,7 +196,7 @@ input[type='file'] {
 }
 
 .clear {
-  margin-left: 4px;
+  margin-left: 8px;
 }
 
 .upload-page {
@@ -221,4 +217,16 @@ body {
 
 * {
   font-size: 1.6rem;
+}
+
+select {
+  padding: 4px;
+  cursor: pointer;
+}
+
+input[type='checkbox'] {
+  vertical-align: bottom;
+  margin: 4px auto;
+  margin-right: 4px;
+  cursor: pointer;
 }

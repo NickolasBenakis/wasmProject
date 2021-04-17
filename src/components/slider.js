@@ -20,7 +20,7 @@ const Slider = () => {
 
   return (
     <div className="slideContainer">
-      <div>Slide compression {` ${quality}/100`}</div>
+      <div>quality level {` ${quality}/100`}</div>
       <input
         type="range"
         min="1"
