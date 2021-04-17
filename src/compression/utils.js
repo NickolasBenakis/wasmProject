@@ -292,6 +292,7 @@ export function handleMaxWidthOrHeight(canvas, options) {
  * @returns {HTMLCanvasElement | OffscreenCanvas} canvas
  */
 export function followExifOrientation(canvas, exifOrientation) {
+  console.log(exifOrientation);
   const width = canvas.width;
   const height = canvas.height;
 

@@ -350,7 +350,6 @@ export function compressOnWebWorker(file, options) {
 
     worker.addEventListener('message', handler);
     worker.addEventListener('error', reject);
-    debugger;
     worker.postMessage({
       file,
       id,

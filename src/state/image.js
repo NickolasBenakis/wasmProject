@@ -134,7 +134,6 @@ const store = (set, get) => ({
     const target = get().useWebWorker
       ? executionTarget.webWorker
       : executionTarget.mainThread;
-    debugger;
     set((prev) => ({
       ...prev,
       uploaded: true,
