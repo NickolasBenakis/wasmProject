@@ -10,33 +10,43 @@ const TargetOptions = ({setField}) => {
         setState(e.target.value);
       }}
     >
-      Choose execution context
-      <label htmlFor="mainThread">
-        <span>main thread</span>
-        <input
-          type="radio"
-          id="mainThread"
-          name="execution"
-          value="mainThread"
-          checked={state === 'mainThread'}
-          onChange={() => setField('useWebWorker', false)}
-        />
-      </label>
-      <label htmlFor="webWorker">
-        <span>web-worker</span>
-        <input
-          type="radio"
-          id="webWorker"
-          name="execution"
-          value="webWorker"
-          checked={state === 'webWorker'}
-          onChange={() => setField('useWebWorker', true)}
-        />
-      </label>
-      <label htmlFor="wasm">
-        <span>wasm</span>
-        <input type="radio" id="wasm" name="execution" value="wasm" disabled />
-      </label>
+      <div className="title">Choose execution target:</div>
+      <div className="options">
+        <label htmlFor="mainThread">
+          <input
+            type="radio"
+            id="mainThread"
+            name="execution"
+            value="mainThread"
+            checked={state === 'mainThread'}
+            onChange={() => setField('useWebWorker', false)}
+          />
+          <span>main thread</span>
+        </label>
+        <label htmlFor="webWorker">
+          <input
+            type="radio"
+            id="webWorker"
+            name="execution"
+            value="webWorker"
+            checked={state === 'webWorker'}
+            onChange={() => setField('useWebWorker', true)}
+          />
+          <span>web-worker</span>
+        </label>
+        <label htmlFor="wasm">
+          <input
+            type="radio"
+            id="wasm"
+            name="execution"
+            value="wasm"
+            disabled
+          />
+          <span>
+            wasm <code>(soon)</code>
+          </span>
+        </label>
+      </div>
     </div>
   );
 };

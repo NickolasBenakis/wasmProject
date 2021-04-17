@@ -235,12 +235,20 @@ input[type='checkbox'] {
   display: flex;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 50px;
   text-align: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 250px;
+  width: 260px;
+}
+.execution-options .title {
+  margin-bottom: 4px;
+}
+.execution-options .options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: auto;
 }
 
 label span {
@@ -250,6 +258,10 @@ label span {
 
 input[disabled] {
   cursor: not-allowed;
+}
+
+input[type='radio'] {
+  width: 25px;
 }
 
 input {
