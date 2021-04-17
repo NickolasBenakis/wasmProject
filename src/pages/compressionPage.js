@@ -10,6 +10,8 @@ const selectState = (state) => ({
   ...state,
 });
 
+const textSizeHeadline = (size) => (size == null ? '' : size + ' Mb');
+
 const CompressionPage = () => {
   const {
     setField,
@@ -53,8 +55,12 @@ const CompressionPage = () => {
       >
         <tbody>
           <tr>
-            <td>{`Original ${state[getTarget()].inputSize} Mb`}</td>
-            <td>{`Compressed ${state[getTarget()].outputSize} Mb`}</td>
+            <td>{`Original ${textSizeHeadline(
+              state[getTarget()].inputSize
+            )}`}</td>
+            <td>{`Compressed ${textSizeHeadline(
+              state[getTarget()].outputSize
+            )}`}</td>
           </tr>
           <tr>
             <td>
