@@ -15,6 +15,7 @@ const imageInitialState = {
 };
 
 const initialState = {
+  uploaded: false,
   quality: 92,
   ratio: 0,
   useWebWorker: false,
@@ -118,11 +119,10 @@ const store = (set, get) => ({
 
     const url = URL.createObjectURL(file);
 
-    await createImage(url, 'original');
-
     const target = get().useWebWorker ? 'webWorker' : 'mainThread';
     set((prev) => ({
       ...prev,
+      uploaded: true,
       [target]: {
         ...prev[target],
         inputUrl: url,

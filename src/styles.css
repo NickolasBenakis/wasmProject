@@ -1,8 +1,12 @@
 .container {
-  display: block;
+  display: flex;
   max-width: 1080px;
-  margin: 16px auto;
+  margin: 0 auto;
+  padding: 50px;
   text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
@@ -174,9 +178,37 @@ body {
 }
 
 input[type='file'] {
-  /* opacity: 0; */
+  display: none;
+}
+
+.custom-upload {
+  margin: 16px;
+  padding: 16px;
+  border: 1px dotted black;
+  width: 124px;
+  cursor: pointer;
 }
 
 .clear {
   margin-left: 4px;
+}
+
+.upload-page {
+  margin: 0 auto;
+  background-color: whitesmoke;
+  height: 100vh;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+}
+
+* {
+  font-size: 1.6rem;
 }

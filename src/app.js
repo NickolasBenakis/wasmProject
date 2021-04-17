@@ -21,114 +21,22 @@
 //   button.addEventListener('click', submitHandler);
 // });
 
-import React, {useEffect} from 'react';
-import Image from './components/image';
-import Controls from './components/controls';
-import WasmLoader from './loader.js';
+import React from 'react';
 import useImageStore from './state/image';
-import shallow from 'zustand/shallow';
-import {calculateCompressedTime} from './util';
+import CompressionPage from './pages/compressionPage';
+import UploadPage from './pages/uploadPage';
 import './styles.css';
 
-const selectState = (state) => ({
-  ...state,
-});
+const selectState = (state) => state.uploaded;
 
 const App = () => {
-  const {
-    setField,
-    setFields,
-    compressImage,
-    uploadImage,
-    useWebWorker,
-    quality,
-    ratio,
-    type,
-    getTarget,
-    clearState,
-    ...state
-  } = useImageStore(selectState, shallow);
+  const uploaded = useImageStore(selectState);
 
-  useEffect(() => {
-    if (state[getTarget()].inputUrl) {
-      compressImage();
-    }
-  }, [type, quality, useWebWorker]);
+  if (uploaded) {
+    return <CompressionPage />;
+  }
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    const file = e.target.files?.[0];
-    if (!file) return;
-    await uploadImage(file);
-  };
-
-  return (
-    <>
-      <label className="container">
-        <span className="title">Upload an image to compress it</span>
-        <input
-          title=""
-          name="upload"
-          className="custom-file-input"
-          id="upload"
-          type="file"
-          accept=".jpeg, .jpg, .png"
-          onChange={handleUpload}
-        />
-      </label>
-      {state.mainThread.outputUrl || state.webWorker.outputUrl ? (
-        <table className="info">
-          <tbody>
-            <tr>
-              <td>compressed info : </td>
-              <td>
-                {`Image size ${state[getTarget()].outputSize} Mb, ${
-                  ratio === 100 ? `~100` : ratio
-                } % ${ratio > 100 ? 'larger' : 'smaller'}`}
-              </td>
-            </tr>
-            <tr>
-              <td>Compressed Time : </td>
-              <td>{`${calculateCompressedTime(state[getTarget()].time)} s`}</td>
-            </tr>
-            <tr>
-              <td>download : </td>
-              <td>
-                <a
-                  target="_blank"
-                  href={state[getTarget()].outputUrl}
-                  download={state[getTarget()].outputFile.name}
-                >
-                  Download compressed file
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      ) : null}
-      <table
-        className={
-          state[getTarget()].inputUrl ? 'compress show' : 'compress hide'
-        }
-      >
-        <tbody>
-          <tr>
-            <td>original</td>
-            <td>compressed</td>
-          </tr>
-          <tr>
-            <td>
-              <Image type="original" />
-            </td>
-            <td>
-              <Image type="compressed" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <Controls />
-    </>
-  );
+  return <UploadPage />;
 };
 
 export default App;
