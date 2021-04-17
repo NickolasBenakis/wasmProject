@@ -7,6 +7,7 @@ const Image = ({type, src, ...props}) => {
     <img
       id={type}
       src={src}
+      style={{display: 'none'}}
       className={`preview ${isCompressed(type) ? 'compressed' : undefined}`}
       {...props}
     />

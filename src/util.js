@@ -64,6 +64,7 @@ export function createImage(src, id) {
     img.onload = () => resolve(img);
     img.onerror = (e) => reject(e);
     img.src = src;
+    img.style.display = 'block';
   });
 }
 
