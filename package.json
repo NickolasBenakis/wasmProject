@@ -38,6 +38,6 @@
     "start": "yarn asbuild && webpack serve --config webpack.config.js",
     "build": "rm -rf dist && webpack build --config webpack.config.js",
     "prettier:write": "./node_modules/.bin/prettier --write './src/**/*{.js,.jsx,.scss}'",
-    "deploy": "yarn run build && ./node_modules/.bin/surge --domain https://imgCompress.surge.sh"
+    "deploy": "yarn run build && ./node_modules/.bin/surge --project ./dist --domain https://imgCompress.surge.sh"
   }
 }
