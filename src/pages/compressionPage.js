@@ -17,6 +17,7 @@ const CompressionPage = () => {
     compressImage,
     uploadImage,
     useWebWorker,
+    useWASM,
     quality,
     ratio,
     type,
@@ -29,7 +30,7 @@ const CompressionPage = () => {
     if (state[getTarget()].inputUrl) {
       compressImage();
     }
-  }, [type, quality, useWebWorker]);
+  }, [type, quality, useWebWorker, useWASM]);
 
   useEffect(async () => {
     await createImage(state[getTarget()].inputUrl, 'original');
@@ -38,7 +39,11 @@ const CompressionPage = () => {
   return (
     <>
       <CompressionDetails
-        display={state.mainThread.outputUrl || state.webWorker.outputUrl}
+        display={
+          state.mainThread.outputUrl ||
+          state.webWorker.outputUrl ||
+          state.wasm.outputUrl
+        }
         outputFileName={state[getTarget()].outputFile?.name || ''}
         outputSize={state[getTarget()].outputSize}
         ratio={ratio}

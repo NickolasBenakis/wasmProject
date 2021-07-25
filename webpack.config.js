@@ -34,4 +34,8 @@ module.exports = {
       template: path.resolve(__dirname, 'index.html'),
     }),
   ],
+  experiments: {
+    syncWebAssembly: true,
+    asyncWebAssembly: true,
+  },
 };

@@ -1,6 +1,8 @@
 import create from 'zustand';
 import {devtools} from 'zustand/middleware';
-import imageCompression from '../compression/index.js';
+// import imageCompression from '../compression/index.js';
+import imageCompression from 'browser-image-compression';
+import {drawFileInCanvas, canvasToFile} from '../compression/utils';
 import {createImage} from '../util';
 
 const executionTarget = Object.freeze({
@@ -25,11 +27,15 @@ const initialState = {
   quality: 92,
   ratio: 0,
   useWebWorker: false,
+  useWASM: false,
   type: 'jpeg',
   webWorker: {
     ...imageInitialState,
   },
   mainThread: {
+    ...imageInitialState,
+  },
+  wasm: {
     ...imageInitialState,
   },
 };
@@ -57,10 +63,15 @@ const store = (set, get) => ({
     }));
   },
   getTarget: () => {
-    const target = get().useWebWorker
-      ? executionTarget.webWorker
-      : executionTarget.mainThread;
-    return target;
+    const webWorkertarget = get().useWebWorker;
+    if (webWorkertarget) {
+      return executionTarget.webWorker;
+    }
+    const wasmTarget = get().useWASM;
+    if (wasmTarget) {
+      return executionTarget.wasm;
+    }
+    return executionTarget.mainThread;
   },
   setField: (key, value) => {
     if (!key in get()) {
@@ -74,7 +85,10 @@ const store = (set, get) => ({
   onProgress: (p) => {
     const target = get().useWebWorker
       ? executionTarget.webWorker
+      : get().useWASM
+      ? executionTarget.wasm
       : executionTarget.mainThread;
+
     set((prevState) => ({
       ...prevState,
       [target]: {
@@ -83,10 +97,63 @@ const store = (set, get) => ({
       },
     }));
   },
+  compressImageWithWasm: async () => {
+    const target = get().wasm.inputFile;
+    console.log('HELLO');
+    const [image, canvas, ctx] = await drawFileInCanvas(target);
+
+    const photonModule = await import('@silvia-odwyer/photon');
+
+    const t0 = performance.now();
+    const photonImage = photonModule.open_image(canvas, ctx);
+    const resizedCanvas = photonModule.resize_img_browser(
+      photonImage,
+      image.width,
+      image.height,
+      1
+    );
+    const t1 = performance.now();
+
+    const output = await canvasToFile(
+      resizedCanvas,
+      `image/${get().type}`,
+      'resized',
+      Date.now(),
+      get().quality
+    );
+
+    const url = URL.createObjectURL(output);
+    await createImage(url, 'compressed');
+
+    console.log(output);
+
+    set((prev) => ({
+      ...prev,
+      ratio: calculateRatio(
+        (output.size / 1024 / 1024).toFixed(2),
+        get().wasm?.inputSize
+      ),
+      wasm: {
+        ...prev.wasm,
+        time: t1 - t0,
+        outputUrl: url,
+        outputFile: output,
+        outputSize: (output.size / 1024 / 1024).toFixed(2),
+      },
+    }));
+  },
+
   compressImage: async () => {
     const target = get().useWebWorker
       ? executionTarget.webWorker
+      : get().useWASM
+      ? executionTarget.wasm
       : executionTarget.mainThread;
+
+    if (target === executionTarget.wasm) {
+      await get().compressImageWithWasm();
+      return;
+    }
 
     const options = {
       maxSizeMB: 1,
@@ -133,7 +200,10 @@ const store = (set, get) => ({
 
     const target = get().useWebWorker
       ? executionTarget.webWorker
+      : get().useWASM
+      ? executionTarget.wasm
       : executionTarget.mainThread;
+
     set((prev) => ({
       ...prev,
       uploaded: true,

@@ -133,7 +133,7 @@ export function loadImage(src) {
 export function drawImageInCanvas(img) {
   const [canvas, ctx] = getNewCanvasAndCtx(img.width, img.height);
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  return canvas;
+  return [canvas, ctx];
 }
 
 /**
@@ -150,8 +150,8 @@ export async function drawFileInCanvas(file) {
     const dataUrl = await getDataUrlFromFile(file);
     img = await loadImage(dataUrl);
   }
-  const canvas = drawImageInCanvas(img);
-  return [img, canvas];
+  const [canvas, ctx] = drawImageInCanvas(img);
+  return [img, canvas, ctx];
 }
 
 /**

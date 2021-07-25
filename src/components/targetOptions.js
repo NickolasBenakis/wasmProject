@@ -19,7 +19,10 @@ const TargetOptions = ({setField}) => {
             name="execution"
             value="mainThread"
             checked={state === 'mainThread'}
-            onChange={() => setField('useWebWorker', false)}
+            onChange={() => {
+              setField('useWASM', false);
+              setField('useWebWorker', false);
+            }}
           />
           <span>main thread</span>
         </label>
@@ -30,21 +33,26 @@ const TargetOptions = ({setField}) => {
             name="execution"
             value="webWorker"
             checked={state === 'webWorker'}
-            onChange={() => setField('useWebWorker', true)}
+            onChange={() => {
+              setField('useWASM', false);
+              setField('useWebWorker', true);
+            }}
           />
-          <span>web-worker</span>
+          <span>web worker</span>
         </label>
         <label htmlFor="wasm">
           <input
             type="radio"
             id="wasm"
             name="execution"
-            value="wasm"
-            disabled
+            value="WASM"
+            checked={state === 'WASM'}
+            onChange={() => {
+              setField('useWebWorker', false);
+              setField('useWASM', true);
+            }}
           />
-          <span>
-            wasm <code>(soon)</code>
-          </span>
+          <span>web assembly</span>
         </label>
       </div>
     </div>
